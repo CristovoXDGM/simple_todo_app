@@ -46,10 +46,14 @@ class _HomePageState extends State<HomePage> {
             width: sizer.width,
             child: TextField(
               controller: searchController,
+              style: taskStyle,
               decoration: InputDecoration(
                 alignLabelWithHint: true,
-                hintText: "Search",
+                hintText: "Adicione sua tarefa",
                 border: InputBorder.none,
+                labelStyle: taskStyle,
+                counterStyle: taskStyle,
+                hintStyle: taskStyle,
                 filled: true,
                 fillColor: AppColors.primaryColor,
                 suffixIcon: Padding(

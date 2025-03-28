@@ -29,7 +29,7 @@ class _TaskItemState extends State<TaskItem> {
       padding: EdgeInsets.symmetric(vertical: 18),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: AppColors.backgroundColor,
+        color: widget.todo.completed ? AppColors.primaryColor : AppColors.backgroundColor,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
