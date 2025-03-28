@@ -17,7 +17,7 @@ launch.json e rodar direto no vsCode;
 - De preferência utilizar um celular ou emulador para rodar o app
 - Ter certeza de que o android studio ou xCode está atualizado
 
-# O que eu pretendo evoluir nesse projeto
+# O que eu faria se tivesse mais tempo
 
 - Bom, eu criaria os temas de forma mais organizada, para facilitar o acesso aos
 estilos de texto, utilizando talvez o themeExtensions.
