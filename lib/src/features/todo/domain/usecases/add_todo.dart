@@ -14,6 +14,11 @@ class AddTodoUsecaseImpl implements AddTodoUsecase {
 
   @override
   AsyncResult<void> call(ToDo todo) async {
+    if (todo.description.isEmpty) {
+      return Failure(
+        Exception("Description cannot be empty"),
+      );
+    }
     final result = await _repository.addTodo(todo);
     return result;
   }

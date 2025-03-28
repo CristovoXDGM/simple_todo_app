@@ -1,12 +1,12 @@
 class ToDo {
   final int? id;
 
-  final String todo;
+  final String description;
   final bool completed;
 
   ToDo({
     this.id,
-    required this.todo,
+    required this.description,
     required this.completed,
   });
 
@@ -17,7 +17,7 @@ class ToDo {
   }) {
     return ToDo(
       id: id ?? this.id,
-      todo: todo ?? this.todo,
+      description: todo ?? description,
       completed: completed ?? this.completed,
     );
   }

@@ -1,26 +1,100 @@
+import 'dart:async';
+
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+
 import '../models/todo_model.dart';
 
 abstract class ToDoLocalDataSource {
-  Future<List<ToDoModel>> fetchTodos();
+  Future<void> cacheTodos(List<ToDoModel> todos);
+  Future<List<ToDoModel>> getTodos();
+  Future<void> updateTodo(ToDoModel todo);
+  Future<void> deleteTodo(int id);
+  Future<void> addTodo(ToDoModel todo);
 }
 
 class ToDoLocalDataSourceImpl implements ToDoLocalDataSource {
-  // final Dio client;
+  static const _tableName = 'toDos';
+  Database? _database;
 
-  ToDoLocalDataSourceImpl();
+  Future<Database> get _db async {
+    if (_database != null) return _database!;
+
+    final dbPath = await getDatabasesPath();
+
+    final path = join(dbPath, 'toDo.db');
+
+    _database = await openDatabase(
+      path,
+      version: 1,
+      onCreate: (db, version) async {
+        await db.execute('''
+          CREATE TABLE $_tableName(
+            id INTEGER PRIMARY KEY,
+            todo TEXT,
+            completed INTEGER,
+            isSynced INTEGER
+          )
+        ''');
+      },
+    );
+    return _database!;
+  }
 
   @override
-  Future<List<ToDoModel>> fetchTodos() async {
-    throw Exception('Erro ao carregar tarefas');
-    // final url = "https://dummyjson.com/todos";
+  Future<void> cacheTodos(List<ToDoModel> todos) async {
+    final db = await _db;
+    final batch = db.batch();
 
-    // final response = await client.get(url);
+    await db.delete(_tableName);
+    final uniqueTodos = {for (var todo in todos) todo.id: todo}.values.toList();
+    for (var todo in uniqueTodos) {
+      if (todo.description.isNotEmpty) {
+        batch.insert(
+          _tableName,
+          todo.toMap(),
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
+      }
+    }
+    await batch.commit(noResult: true);
+  }
 
-    // if (response.statusCode == 200) {
-    //   final List<dynamic> jsonData = response.data['todos'];
-    //   return jsonData.map((todo) => ToDoModel.fromJson(todo)).toList();
-    // } else {
-    //   throw Exception('Erro ao carregar tarefas');
-    // }
+  @override
+  Future<List<ToDoModel>> getTodos() async {
+    final db = await _db;
+    final result = await db.query(_tableName);
+    return result.map((map) => ToDoModel.fromMap(map)).toList();
+  }
+
+  @override
+  Future<void> addTodo(ToDoModel todo) async {
+    final db = await _db;
+    await db.insert(
+      _tableName,
+      todo.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  @override
+  Future<void> updateTodo(ToDoModel todo) async {
+    final db = await _db;
+    await db.update(
+      _tableName,
+      todo.toMap(),
+      where: 'id = ?',
+      whereArgs: [todo.id],
+    );
+  }
+
+  @override
+  Future<void> deleteTodo(int id) async {
+    final db = await _db;
+    await db.delete(
+      _tableName,
+      where: 'id = ?',
+      whereArgs: [id],
+    );
   }
 }

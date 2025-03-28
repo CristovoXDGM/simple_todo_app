@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 import '../models/todo_model.dart';
 
@@ -19,9 +20,10 @@ class ToDoRemoteDataSourceImpl implements ToDoRemoteDataSource {
 
     if (response.statusCode == 200) {
       final List<dynamic> jsonData = response.data['todos'];
-      return jsonData.map((todo) => ToDoModel.fromJson(todo)).toList();
+      return jsonData.map((todo) => ToDoModel.fromMap(todo)).toList();
     } else {
-      throw Exception('Erro ao carregar tarefas');
+      debugPrint("Error fetching todos: ${response.statusCode}");
+      return [];
     }
   }
 }

@@ -1,38 +1,63 @@
 import 'package:simple_simple_todo/src/features/todo/domain/entities/todo.dart';
 
-class ToDoModel {
-  final int? id;
-  final String todo;
-
-  final bool completed;
+class ToDoModel extends ToDo {
+  final bool isSynced;
 
   ToDoModel({
-    this.id,
-    required this.todo,
-    required this.completed,
+    super.id,
+    required super.description,
+    required super.completed,
+    this.isSynced = false,
   });
 
   ToDo toEntity() {
     return ToDo(
       id: id,
-      todo: todo,
+      description: description,
       completed: completed,
     );
   }
 
-  factory ToDoModel.fromJson(Map<String, dynamic> json) {
+  ToDoModel copyWithModel({bool? isSynced}) {
     return ToDoModel(
-      id: json['id'],
-      todo: json['todo'],
-      completed: json['completed'],
+      id: id,
+      description: description,
+      completed: completed,
+      isSynced: isSynced ?? this.isSynced,
     );
   }
 
-  Map<String, dynamic> toJson() {
+  static ToDoModel toToDoModel(ToDo todo) {
+    return ToDoModel(
+      description: todo.description,
+      completed: todo.completed,
+      id: todo.id,
+    );
+  }
+
+  static bool _isBoolOrNumber(dynamic value) {
+    if (value is bool) {
+      return value;
+    } else {
+      return value == 1;
+    }
+  }
+
+  factory ToDoModel.fromMap(Map<String, dynamic> json) {
+    return ToDoModel(
+      id: json['id'],
+      description: json['todo'] ?? '',
+      completed: _isBoolOrNumber(json['completed']),
+      isSynced: _isBoolOrNumber(json['isSynced']),
+    );
+  }
+
+  Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'todo': todo,
-      'completed': completed,
+      'todo': description,
+      'completed': completed ? 1 : 0,
+      'isSynced': isSynced ? 1 : 0,
     };
   }
 }

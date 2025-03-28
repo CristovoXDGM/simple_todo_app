@@ -1,13 +1,25 @@
 import 'package:flutter/foundation.dart';
+import 'package:simple_simple_todo/src/features/todo/domain/usecases/add_todo.dart';
+import 'package:simple_simple_todo/src/features/todo/domain/usecases/delete_todo.dart';
 import 'package:simple_simple_todo/src/features/todo/domain/usecases/get_todos.dart';
+import 'package:simple_simple_todo/src/features/todo/domain/usecases/update_todo.dart';
 
 import '../../../../core/util/todo_types.dart';
+import '../../domain/entities/todo.dart';
 import 'todo_states.dart';
 
-class GetTodoStore extends ValueNotifier<GetToDoStoreState> {
-  GetTodoStore(this.getTodoUsecase) : super(InitalGetToDoStoreState());
+class GetTodoStore extends ValueNotifier<ToDoStoreState> {
+  GetTodoStore({
+    required this.getTodoUsecase,
+    required this.addTodoUsecase,
+    required this.updateTodoUsecase,
+    required this.deleteTodoUsecase,
+  }) : super(InitalToDoStoreStateState());
 
   final GetTodoUsecase getTodoUsecase;
+  final AddTodoUsecase addTodoUsecase;
+  final UpdateTodoUsecase updateTodoUsecase;
+  final DeleteTodoUsecase deleteTodoUsecase;
 
   final tasksList = ValueNotifier<ToDoList>([]);
 
@@ -28,7 +40,63 @@ class GetTodoStore extends ValueNotifier<GetToDoStoreState> {
         .toList();
   }
 
+  Future<void> updateToDo(ToDo toDo) async {
+    value = LoadingToDoStoreState();
+
+    final result = await updateTodoUsecase.call(toDo);
+
+    result.fold(
+      (success) {
+        updateToDoList();
+
+        value = SuccessToDoStoreState();
+      },
+      (failure) {
+        debugPrint("Error: $failure");
+        value = FailureToDoStoreState();
+      },
+    );
+  }
+
+  Future<void> addToDo(ToDo toDo) async {
+    value = LoadingToDoStoreState();
+
+    final result = await addTodoUsecase.call(toDo);
+
+    result.fold(
+      (success) {
+        updateToDoList();
+
+        value = SuccessToDoStoreState();
+      },
+      (failure) {
+        debugPrint("Error: $failure");
+        value = FailureToDoStoreState();
+      },
+    );
+  }
+
+  Future<void> deleteToDo(int id) async {
+    value = LoadingToDoStoreState();
+
+    final result = await deleteTodoUsecase.call(id);
+
+    result.fold(
+      (success) {
+        updateToDoList();
+
+        value = SuccessToDoStoreState();
+      },
+      (failure) {
+        debugPrint("Error: $failure");
+        value = FailureToDoStoreState();
+      },
+    );
+  }
+
   Future<void> getAllToDos() async {
+    value = LoadingToDoStoreState();
+
     final result = await getTodoUsecase.getToDos();
     result.fold(
       (success) {
@@ -36,11 +104,11 @@ class GetTodoStore extends ValueNotifier<GetToDoStoreState> {
 
         updateToDoList();
 
-        value = SuccessGetToDoStoreState();
+        value = SuccessToDoStoreState();
       },
       (failure) {
         debugPrint("Error: $failure");
-        value = FailureGetToDoStoreState();
+        value = FailureToDoStoreState();
       },
     );
   }

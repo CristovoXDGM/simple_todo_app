@@ -1,11 +1,11 @@
-abstract class GetToDoStoreState {}
+abstract class ToDoStoreState {}
 
-class InitalGetToDoStoreState extends GetToDoStoreState {}
+class InitalToDoStoreStateState extends ToDoStoreState {}
 
-class LoadingGetToDoStoreState extends GetToDoStoreState {}
+class LoadingToDoStoreState extends ToDoStoreState {}
 
-class SuccessGetToDoStoreState extends GetToDoStoreState {
-  SuccessGetToDoStoreState();
+class SuccessToDoStoreState extends ToDoStoreState {
+  SuccessToDoStoreState();
 }
 
-class FailureGetToDoStoreState extends GetToDoStoreState {}
+class FailureToDoStoreState extends ToDoStoreState {}
