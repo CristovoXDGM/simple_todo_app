@@ -31,6 +31,9 @@ responsividade e até mesmo como o estado está sendo gerenciado,o ideal é que
 - Algumas refatorações, principalmente no ToDo repository, no caso, a implementação dele;
 - deixaria menos acoplado o ToDo que foi selecionado, talvez um selected ToDo dentro da Store.
 
+- Implementaria e criaria algumas outras abstrações que ficaram faltando finalizar,
+uma delas foi o do httpClient.
+
 - Criaria o restante dos testes e verificaria a cobertura de testes
 
 -  Os testes que criei foram os da Store e o do Repository, utilizei o mocktail para fazer os mocks.
