@@ -7,7 +7,7 @@ class ToDo {
   ToDo({
     this.id,
     required this.description,
-    required this.completed,
+    this.completed = false,
   });
 
   ToDo copyWith({

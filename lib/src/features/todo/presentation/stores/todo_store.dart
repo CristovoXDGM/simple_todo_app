@@ -8,8 +8,8 @@ import '../../../../core/util/todo_types.dart';
 import '../../domain/entities/todo.dart';
 import 'todo_states.dart';
 
-class GetTodoStore extends ValueNotifier<ToDoStoreState> {
-  GetTodoStore({
+class ToDoStore extends ValueNotifier<ToDoStoreState> {
+  ToDoStore({
     required this.getTodoUsecase,
     required this.addTodoUsecase,
     required this.updateTodoUsecase,

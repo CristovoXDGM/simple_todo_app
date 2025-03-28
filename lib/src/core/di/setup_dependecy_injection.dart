@@ -50,8 +50,8 @@ class SetupDependecyInjection {
         getIt.get<TodoRepositoryImpl>(),
       ),
     );
-    getIt.registerLazySingleton<GetTodoStore>(
-      () => GetTodoStore(
+    getIt.registerLazySingleton<ToDoStore>(
+      () => ToDoStore(
         getTodoUsecase: getIt.get<GetTodoUsecase>(),
         addTodoUsecase: getIt.get<AddTodoUsecase>(),
         deleteTodoUsecase: getIt.get<DeleteTodoUsecase>(),

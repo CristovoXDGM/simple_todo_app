@@ -19,9 +19,9 @@ class TodoRepositoryImpl implements ToDoRepository {
       );
 
       return Success(unit);
-    } catch (e) {
+    } catch (e, s) {
       return Failure(
-        Exception("Erro ao adicionar tarefa"),
+        Exception("Erro ao adicionar tarefa $e \n trace: $s"),
       );
     }
   }
@@ -97,9 +97,9 @@ class TodoRepositoryImpl implements ToDoRepository {
       );
 
       return Success(unit);
-    } catch (e) {
+    } catch (e, s) {
       return Failure(
-        Exception("Erro ao atualizar tarefa"),
+        Exception("Erro ao atualizar tarefa $e \n trace: $s"),
       );
     }
   }

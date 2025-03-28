@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final searchController = TextEditingController();
-  final todoStore = getIt.get<GetTodoStore>();
+  final todoStore = getIt.get<ToDoStore>();
 
   @override
   void initState() {

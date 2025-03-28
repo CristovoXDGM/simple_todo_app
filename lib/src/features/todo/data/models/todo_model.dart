@@ -6,7 +6,7 @@ class ToDoModel extends ToDo {
   ToDoModel({
     super.id,
     required super.description,
-    required super.completed,
+    super.completed,
     this.isSynced = false,
   });
 

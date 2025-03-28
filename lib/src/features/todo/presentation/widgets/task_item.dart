@@ -17,7 +17,7 @@ class TaskItem extends StatefulWidget {
 }
 
 class _TaskItemState extends State<TaskItem> {
-  final todoStore = getIt.get<GetTodoStore>();
+  final todoStore = getIt.get<ToDoStore>();
 
   @override
   Widget build(BuildContext context) {

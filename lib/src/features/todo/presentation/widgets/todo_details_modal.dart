@@ -15,7 +15,7 @@ class TodoDetailsModal extends StatefulWidget {
 }
 
 class _TodoDetailsModalState extends State<TodoDetailsModal> {
-  final todoStore = getIt.get<GetTodoStore>();
+  final todoStore = getIt.get<ToDoStore>();
   final todoTextController = TextEditingController();
 
   @override
