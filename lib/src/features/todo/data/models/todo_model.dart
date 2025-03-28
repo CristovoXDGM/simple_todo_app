@@ -1,31 +1,38 @@
-class TodoModel {
-  final String? id;
-  final String title;
-  final String description;
-  final bool isDone;
+import 'package:simple_simple_todo/src/features/todo/domain/entities/todo.dart';
 
-  TodoModel({
+class ToDoModel {
+  final int? id;
+  final String todo;
+
+  final bool completed;
+
+  ToDoModel({
     this.id,
-    required this.title,
-    required this.description,
-    required this.isDone,
+    required this.todo,
+    required this.completed,
   });
 
-  factory TodoModel.fromJson(Map<String, dynamic> json) {
-    return TodoModel(
+  ToDo toEntity() {
+    return ToDo(
+      id: id,
+      todo: todo,
+      completed: completed,
+    );
+  }
+
+  factory ToDoModel.fromJson(Map<String, dynamic> json) {
+    return ToDoModel(
       id: json['id'],
-      title: json['title'],
-      description: json['description'],
-      isDone: json['isDone'],
+      todo: json['todo'],
+      completed: json['completed'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'title': title,
-      'description': description,
-      'isDone': isDone,
+      'todo': todo,
+      'completed': completed,
     };
   }
 }

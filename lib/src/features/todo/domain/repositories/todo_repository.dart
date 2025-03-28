@@ -7,5 +7,6 @@ abstract class ToDoRepository {
   AsyncResult<ToDoList> getTodos();
   AsyncResult<void> addTodo(ToDo todo);
   AsyncResult<void> updateTodo(ToDo todo);
+
   AsyncResult<void> deleteTodo(int id);
 }
